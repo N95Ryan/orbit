@@ -1,73 +1,53 @@
 {
   "version": 1,
-  "date": "2026-11-11",
-  "generatedAt": "2026-11-11T15:50:00-05:00",
-  "readingTime": 5,
+  "date": "2026-11-12",
+  "generatedAt": "2026-11-12T06:48:59-05:00",
+  "readingTime": 2,
   "headlines": [
-    "Go 1.27.4 : correctifs de sécurité, à appliquer",
-    "Next.js 16.4.5 : fuite de cache entre tenants",
-    "Claude Code : « don't ask again » leak des secrets"
+    "Claude Fable 5.2 : plus rapide, prix en forte baisse",
+    "Claude lance Sheets, Whiteboards et Data",
+    "Workers : servir ses assets sous un préfixe comme /blog/"
   ],
   "items": [
     {
-      "topic": "go",
-      "kind": "security",
-      "title": "Go 1.27.4 et 1.26.11 publiés avec des correctifs de sécurité",
-      "summary": "Sorties le 10 novembre. Les correctifs de sécurité touchent cgo, la commande go, le compilateur, le linker et net/http. S'y ajoutent des bug fixes sur le runtime et plusieurs paquets crypto (tls, rsa, hkdf, fips140) ainsi que net.",
-      "whyItMatters": "net/http est au cœur de tes API Go (Flip, Midbec) : bump de la toolchain et rebuild des images Docker.",
-      "source": "go.dev",
-      "url": "https://go.dev/doc/devel/release#go1.27.4",
-      "publishedAt": "2026-11-10"
-    },
-    {
-      "topic": "go",
-      "kind": "article",
-      "title": "Le Go Blog détaille encoding/json/v2",
-      "summary": "Go 1.27 a introduit les paquets encoding/json/v2 et encoding/json/jsontext. L'article de l'équipe Go explique la nouvelle API et ses différences avec le json historique.",
-      "whyItMatters": "Toutes tes API sérialisent du JSON : bon moment pour évaluer la v2 sur un handler Chi avant de migrer.",
-      "source": "go.dev/blog",
-      "url": "https://go.dev/blog/",
-      "publishedAt": "2026-11-04"
-    },
-    {
-      "topic": "nextjs",
-      "kind": "security",
-      "title": "Next.js 16.4.5 et 15.5.29 : 7 vulnérabilités corrigées",
-      "summary": "Release de sécurité de novembre. La faille la plus grave (High) permet une fuite de cache entre tenants quand unstable_cache et 'use cache' sont combinés avec Cache Components. Les autres touchent la confusion d'arguments binaires dans 'use cache', des cookies HttpOnly exposés via un header interne sur les routes Edge et un contournement du blocage SVG dans Image Optimization.",
-      "whyItMatters": "Si un projet encore sur Next.js utilise 'use cache' ou des routes Edge qui posent des cookies, patch immédiat.",
-      "source": "nextjs.org",
-      "url": "https://nextjs.org/blog/november-2026-security-release",
-      "publishedAt": "2026-11-03"
-    },
-    {
-      "topic": "supabase",
-      "kind": "breaking",
-      "title": "Supabase CLI v3 devient la version par défaut",
-      "summary": "La v3.0.0 est sortie le 2 novembre et s'installe désormais par défaut via npm, Brew, Scoop et supabase/setup-cli. Les projets initialisés avant la v2.108.0 ont une section [inbucket] dans config.toml qui fait échouer supabase start et les commandes db tant qu'elle n'est pas renommée. Un canal v2.stable existe pour rester en v2.",
-      "whyItMatters": "Un vieux projet solo + un brew upgrade = supabase start qui casse : vérifie ton config.toml ou pin la v2.",
-      "source": "supabase.com",
-      "url": "https://supabase.com/changelog",
-      "publishedAt": "2026-11-02"
-    },
-    {
-      "topic": "cloudflare",
-      "kind": "breaking",
-      "title": "Workers AI retire 16 LLM le 15 novembre",
-      "summary": "Cloudflare retire seize LLM ainsi que des modèles image, voix et embedding de Workers AI le 15 novembre, dont deepseek-v4-pro, kimi-k2.6, glm-5.2 et llama-3.2-1b-instruct. Par ailleurs, à partir de la compatibility date du 17 novembre, Request.signal devient le comportement par défaut et le nouveau module registry est activé.",
-      "whyItMatters": "Pas d'impact si LYVATH et ton portfolio n'appellent pas Workers AI ; pense juste à relire les changements quand tu bumperas la compatibility_date.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-05-planned-model-deprecations/",
-      "publishedAt": "2026-11-05"
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude Fable 5.2 et Mythos 5.2",
+      "summary": "Anthropic publie de nouvelles versions de Fable et Mythos, annoncées 30 % plus rapides pour un prix 60 % plus bas, avec des progrès en code, raisonnement et vision. Fable est disponible largement avec des garde-fous supplémentaires ; Mythos reste réservé à des organisations vérifiées. Tarif : 8 $ / 40 $ par million de tokens en entrée / sortie, et un mode rapide optionnel à 16 $ / 80 $.",
+      "whyItMatters": "Si tu passes par l'API ou Cursor avec Fable, le même travail coûte nettement moins cher : à tester sur tes tâches de migration Midbec.",
+      "source": "anthropic.com",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+      "publishedAt": "2026-11-09"
     },
     {
       "topic": "claude",
-      "kind": "security",
-      "title": "Claude Code : « Yes, and don't ask again » enregistre les secrets en clair",
-      "summary": "Selon Apiiro, cette option sauvegarde la commande approuvée telle quelle comme règle dans .claude/settings.local.json, y compris un mot de passe ou une clé tapés dedans. Une fois ce fichier commité, les secrets partent sur GitHub : Apiiro en a compté 2 539 dans 1 994 repos publics.",
-      "whyItMatters": "Ajoute .claude/settings.local.json à ton .gitignore global, et vérifie l'historique de tes repos publics, Orbit compris.",
-      "source": "apiiro.com",
-      "url": "https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again",
-      "publishedAt": "2026-11-06"
+      "kind": "release",
+      "title": "Claude Sheets, Whiteboards et Data, plus les connecteurs interactifs",
+      "summary": "Sheets (tableur collaboratif) et Whiteboards sortent en bêta sur les plans payants, et Claude Dashboards devient Claude Data en disponibilité générale. Les apps connectées peuvent désormais s'ouvrir dans Claude, qui peut agir dedans avec la même approbation que pour les connecteurs ; le support MCP Apps est en preview publique pour les développeurs. Claude Meetings est annoncé pour bientôt.",
+      "whyItMatters": "MCP Apps en preview t'ouvre la porte à des interfaces dans Claude pour tes propres outils, par exemple un back-office Flip.",
+      "source": "claude.com",
+      "url": "https://claude.com/resources/articles/sheets-whiteboards-data",
+      "publishedAt": "2026-11-10"
+    },
+    {
+      "topic": "cloudflare",
+      "kind": "release",
+      "title": "Workers Static Assets : nouvelle option base_path",
+      "summary": "Un Worker peut maintenant servir ses assets statiques sous un préfixe d'URL (par exemple /blog/) sans imbriquer le build dans un dossier du même nom, via assets.base_path dans wrangler.jsonc (Wrangler 4.148.0 minimum). Les requêtes hors du préfixe passent au Worker. Les chemins dans _headers, _redirects et run_worker_first doivent inclure le préfixe complet.",
+      "whyItMatters": "Pratique pour greffer un site Astro sous un sous-chemin de ryan-pina.dev ou LYVATH ; pense à aligner l'option base d'Astro.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-11-static-assets-base-path/",
+      "publishedAt": "2026-11-11"
+    },
+    {
+      "topic": "supabase",
+      "kind": "release",
+      "title": "Supabase : logs corrélés dans Studio et la CLI v3",
+      "summary": "Studio relie désormais les logs par requête, trace ou utilisateur. La CLI v3 ajoute un explorateur de logs dans le terminal, avec filtres, export JSON et requêtes SQL.",
+      "whyItMatters": "Suivre une requête de bout en bout (auth, API, base) sur tes projets solo sans fouiller chaque service à la main.",
+      "source": "supabase.com",
+      "url": "https://supabase.com/changelog/53230-correlated-logs",
+      "publishedAt": "2026-11-10"
     }
   ]
 }

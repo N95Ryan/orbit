@@ -1,53 +1,53 @@
 {
   "version": 1,
-  "date": "2026-11-12",
-  "generatedAt": "2026-11-12T06:48:59-05:00",
+  "date": "2026-11-13",
+  "generatedAt": "2026-11-13T06:53:26-05:00",
   "readingTime": 2,
   "headlines": [
-    "Claude Fable 5.2 : plus rapide, prix en forte baisse",
-    "Claude lance Sheets, Whiteboards et Data",
-    "Workers : servir ses assets sous un préfixe comme /blog/"
+    "Go 1.27.4 et 1.26.11 : correctifs de sécurité, à appliquer",
+    "Expo Simulators : simulateurs iOS/Android cloud pour agents",
+    "Claude Code 2.1.323 : Code Mode expérimental, permissions durcies"
   ],
   "items": [
     {
-      "topic": "claude",
-      "kind": "release",
-      "title": "Claude Fable 5.2 et Mythos 5.2",
-      "summary": "Anthropic publie de nouvelles versions de Fable et Mythos, annoncées 30 % plus rapides pour un prix 60 % plus bas, avec des progrès en code, raisonnement et vision. Fable est disponible largement avec des garde-fous supplémentaires ; Mythos reste réservé à des organisations vérifiées. Tarif : 8 $ / 40 $ par million de tokens en entrée / sortie, et un mode rapide optionnel à 16 $ / 80 $.",
-      "whyItMatters": "Si tu passes par l'API ou Cursor avec Fable, le même travail coûte nettement moins cher : à tester sur tes tâches de migration Midbec.",
-      "source": "anthropic.com",
-      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
-      "publishedAt": "2026-11-09"
-    },
-    {
-      "topic": "claude",
-      "kind": "release",
-      "title": "Claude Sheets, Whiteboards et Data, plus les connecteurs interactifs",
-      "summary": "Sheets (tableur collaboratif) et Whiteboards sortent en bêta sur les plans payants, et Claude Dashboards devient Claude Data en disponibilité générale. Les apps connectées peuvent désormais s'ouvrir dans Claude, qui peut agir dedans avec la même approbation que pour les connecteurs ; le support MCP Apps est en preview publique pour les développeurs. Claude Meetings est annoncé pour bientôt.",
-      "whyItMatters": "MCP Apps en preview t'ouvre la porte à des interfaces dans Claude pour tes propres outils, par exemple un back-office Flip.",
-      "source": "claude.com",
-      "url": "https://claude.com/resources/articles/sheets-whiteboards-data",
+      "topic": "go",
+      "kind": "security",
+      "title": "Go 1.27.4 et 1.26.11 : correctifs de sécurité",
+      "summary": "Deux versions mineures publiées le 10 novembre corrigent des failles de sécurité dans cgo, la commande go, le compilateur, le linker et net/http. Elles embarquent aussi des corrections de bugs dans le runtime, le compilateur et les paquets crypto/tls, crypto/rsa, crypto/hkdf, crypto/fips140 et net.",
+      "whyItMatters": "Le correctif net/http touche directement l'API Go/Chi de Flip et le backend Go de Midbec : monte la version de Go et redéploie.",
+      "source": "go.dev",
+      "url": "https://go.dev/doc/devel/release",
       "publishedAt": "2026-11-10"
     },
     {
-      "topic": "cloudflare",
+      "topic": "expo",
       "kind": "release",
-      "title": "Workers Static Assets : nouvelle option base_path",
-      "summary": "Un Worker peut maintenant servir ses assets statiques sous un préfixe d'URL (par exemple /blog/) sans imbriquer le build dans un dossier du même nom, via assets.base_path dans wrangler.jsonc (Wrangler 4.148.0 minimum). Les requêtes hors du préfixe passent au Worker. Les chemins dans _headers, _redirects et run_worker_first doivent inclure le préfixe complet.",
-      "whyItMatters": "Pratique pour greffer un site Astro sous un sous-chemin de ryan-pina.dev ou LYVATH ; pense à aligner l'option base d'Astro.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-11-static-assets-base-path/",
-      "publishedAt": "2026-11-11"
+      "title": "Expo Simulators : simulateurs iOS et émulateurs Android dans le cloud",
+      "summary": "Expo lance en disponibilité générale des simulateurs iOS et émulateurs Android à la demande, pensés pour les agents, la CI et la revue d'équipe, sans Mac ni RAM locale. Une session se démarre avec npx eas-cli@latest simulator --platform ios (ou via API, Workflows, GitHub Actions), tourne dans une VM isolée et enregistre vidéo, captures, logs et trafic réseau. Facturation à 0,10 $ la minute, avec 60 minutes par mois incluses sur les plans payants jusqu'en 2027 ; sessions de deux heures maximum.",
+      "whyItMatters": "Claude Code peut tester Flip sur un vrai simulateur iOS depuis un environnement Linux ou cloud, et tu peux brancher ça dans la CI.",
+      "source": "expo.dev",
+      "url": "https://expo.dev/blog/introducing-expo-simulators-cloud-simulators-built-for-agents",
+      "publishedAt": "2026-11-12"
     },
     {
-      "topic": "supabase",
+      "topic": "claude",
       "kind": "release",
-      "title": "Supabase : logs corrélés dans Studio et la CLI v3",
-      "summary": "Studio relie désormais les logs par requête, trace ou utilisateur. La CLI v3 ajoute un explorateur de logs dans le terminal, avec filtres, export JSON et requêtes SQL.",
-      "whyItMatters": "Suivre une requête de bout en bout (auth, API, base) sur tes projets solo sans fouiller chaque service à la main.",
-      "source": "supabase.com",
-      "url": "https://supabase.com/changelog/53230-correlated-logs",
-      "publishedAt": "2026-11-10"
+      "title": "Claude Code 2.1.323 : Code Mode et plages de version pour les plugins",
+      "summary": "Nouveau Code Mode expérimental et opt-in, où Claude écrit du JavaScript pour appeler ses outils. Les plugins peuvent déclarer une plage de versions Claude Code compatibles via engines[\"claude-code\"] dans plugin.json. Les vérifications de permissions Bash sont durcies (sudo, env, options zsh), Write et Edit respectent désormais les règles de refus de Read, et le contexte supposé pour un modèle inconnu passe de 200K à 1M tokens.",
+      "whyItMatters": "Les règles de permission que tu as configurées deviennent plus fiables, et Code Mode vaut un essai sur les tâches qui enchaînent beaucoup d'appels d'outils.",
+      "source": "github.com",
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21323",
+      "publishedAt": "2026-11-12"
+    },
+    {
+      "topic": "rust",
+      "kind": "release",
+      "title": "Rust 1.100.0 : le type never et l'API Allocator stabilisés",
+      "summary": "Le type ! est stable et utilisable partout (Result<T, !>), Infallible devient un alias. Le trait Allocator est stabilisé et fonctionne avec Vec et Box, et core::mem::DropGuard arrive pour la logique de rollback. Cargo signale les dépendances inutilisées et permet de fixer un âge minimal de publication (global-min-publish-age) pour éviter les versions trop fraîches. Le fallback du type never passe de () à ! dans les éditions 2015 à 2021, ce qui peut casser du code rare.",
+      "whyItMatters": "Le délai de publication minimal dans Cargo est une bonne protection contre les attaques de supply chain si tu démarres un projet Rust.",
+      "source": "blog.rust-lang.org",
+      "url": "https://blog.rust-lang.org/2026/11/12/Rust-1.100.0/",
+      "publishedAt": "2026-11-12"
     }
   ]
 }

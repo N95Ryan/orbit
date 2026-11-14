@@ -1,53 +1,43 @@
 {
   "version": 1,
-  "date": "2026-11-13",
-  "generatedAt": "2026-11-13T06:53:26-05:00",
+  "date": "2026-11-14",
+  "generatedAt": "2026-11-14T06:58:10-05:00",
   "readingTime": 2,
   "headlines": [
-    "Go 1.27.4 et 1.26.11 : correctifs de sécurité, à appliquer",
-    "Expo Simulators : simulateurs iOS/Android cloud pour agents",
-    "Claude Code 2.1.323 : Code Mode expérimental, permissions durcies"
+    "Claude Code 2.1.325 : faille zstd corrigée, sandbox Bash durci",
+    "Supabase : mot de passe et codes de secours pour ton compte",
+    "Expo : guide pour brancher des agents sur EAS Workflows"
   ],
   "items": [
     {
-      "topic": "go",
+      "topic": "claude",
       "kind": "security",
-      "title": "Go 1.27.4 et 1.26.11 : correctifs de sécurité",
-      "summary": "Deux versions mineures publiées le 10 novembre corrigent des failles de sécurité dans cgo, la commande go, le compilateur, le linker et net/http. Elles embarquent aussi des corrections de bugs dans le runtime, le compilateur et les paquets crypto/tls, crypto/rsa, crypto/hkdf, crypto/fips140 et net.",
-      "whyItMatters": "Le correctif net/http touche directement l'API Go/Chi de Flip et le backend Go de Midbec : monte la version de Go et redéploie.",
-      "source": "go.dev",
-      "url": "https://go.dev/doc/devel/release",
-      "publishedAt": "2026-11-10"
+      "title": "Claude Code 2.1.325 : correctif de sécurité et permissions resserrées",
+      "summary": "Publiée le 13 novembre, cette version corrige une faille dans le décodage des réponses compressées en zstd et ferme plusieurs trous par lesquels certaines commandes Bash, composées ou visées par des règles deny/ask, passaient sans confirmation. Changement de comportement : les commandes Bash en sandbox suivent désormais le flux de permissions normal, sauf si sandbox.autoAllowBashIfSandboxed vaut true. Le réglage subagentStatusLine disparaît, et le format ref des marketplaces change, ce qui empêche les anciens clients de charger certaines marketplaces épinglées.",
+      "whyItMatters": "Mets à jour Claude Code dès maintenant, et attends-toi à plus de demandes de confirmation en mode sandbox si tu comptais sur l'auto-approbation.",
+      "source": "github.com",
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21325",
+      "publishedAt": "2026-11-13"
+    },
+    {
+      "topic": "supabase",
+      "kind": "release",
+      "title": "Supabase : options de connexion de secours pour les comptes",
+      "summary": "La page Account Security du dashboard permet maintenant d'ajouter un mot de passe à un compte qui se connecte uniquement via un fournisseur OAuth comme GitHub. Les comptes avec MFA reçoivent 10 codes de récupération à usage unique, avec le nombre restant affiché et la possibilité d'en régénérer. Aucune action n'est obligatoire et le self-hosted n'est pas concerné.",
+      "whyItMatters": "Si tu te connectes à Supabase via GitHub, ajoute un mot de passe et génère tes codes pour ne pas perdre l'accès à tes side projects.",
+      "source": "supabase.com",
+      "url": "https://supabase.com/changelog/account-backup-sign-in",
+      "publishedAt": "2026-11-13"
     },
     {
       "topic": "expo",
-      "kind": "release",
-      "title": "Expo Simulators : simulateurs iOS et émulateurs Android dans le cloud",
-      "summary": "Expo lance en disponibilité générale des simulateurs iOS et émulateurs Android à la demande, pensés pour les agents, la CI et la revue d'équipe, sans Mac ni RAM locale. Une session se démarre avec npx eas-cli@latest simulator --platform ios (ou via API, Workflows, GitHub Actions), tourne dans une VM isolée et enregistre vidéo, captures, logs et trafic réseau. Facturation à 0,10 $ la minute, avec 60 minutes par mois incluses sur les plans payants jusqu'en 2027 ; sessions de deux heures maximum.",
-      "whyItMatters": "Claude Code peut tester Flip sur un vrai simulateur iOS depuis un environnement Linux ou cloud, et tu peux brancher ça dans la CI.",
+      "kind": "article",
+      "title": "Expo : mettre en place des workflows agentiques",
+      "summary": "Tutoriel officiel qui fait suite au lancement d'Expo Simulators : connecter le dépôt GitHub, créer un utilisateur robot avec un token EXPO_TOKEN_SIMULATOR, brancher Claude via claude setup-token, puis donner aux workflows un token GitHub limité à un dépôt. Il décrit quatre workflows types : CI agentique qui teste chaque PR sur un simulateur cloud, issue vers PR, tri de bugs et QA en essaim. Simulators est réservé aux plans Starter, Production et Enterprise.",
+      "whyItMatters": "C'est la recette concrète pour qu'un agent Claude teste chaque PR de Flip sur un simulateur iOS dans EAS Workflows.",
       "source": "expo.dev",
-      "url": "https://expo.dev/blog/introducing-expo-simulators-cloud-simulators-built-for-agents",
-      "publishedAt": "2026-11-12"
-    },
-    {
-      "topic": "claude",
-      "kind": "release",
-      "title": "Claude Code 2.1.323 : Code Mode et plages de version pour les plugins",
-      "summary": "Nouveau Code Mode expérimental et opt-in, où Claude écrit du JavaScript pour appeler ses outils. Les plugins peuvent déclarer une plage de versions Claude Code compatibles via engines[\"claude-code\"] dans plugin.json. Les vérifications de permissions Bash sont durcies (sudo, env, options zsh), Write et Edit respectent désormais les règles de refus de Read, et le contexte supposé pour un modèle inconnu passe de 200K à 1M tokens.",
-      "whyItMatters": "Les règles de permission que tu as configurées deviennent plus fiables, et Code Mode vaut un essai sur les tâches qui enchaînent beaucoup d'appels d'outils.",
-      "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21323",
-      "publishedAt": "2026-11-12"
-    },
-    {
-      "topic": "rust",
-      "kind": "release",
-      "title": "Rust 1.100.0 : le type never et l'API Allocator stabilisés",
-      "summary": "Le type ! est stable et utilisable partout (Result<T, !>), Infallible devient un alias. Le trait Allocator est stabilisé et fonctionne avec Vec et Box, et core::mem::DropGuard arrive pour la logique de rollback. Cargo signale les dépendances inutilisées et permet de fixer un âge minimal de publication (global-min-publish-age) pour éviter les versions trop fraîches. Le fallback du type never passe de () à ! dans les éditions 2015 à 2021, ce qui peut casser du code rare.",
-      "whyItMatters": "Le délai de publication minimal dans Cargo est une bonne protection contre les attaques de supply chain si tu démarres un projet Rust.",
-      "source": "blog.rust-lang.org",
-      "url": "https://blog.rust-lang.org/2026/11/12/Rust-1.100.0/",
-      "publishedAt": "2026-11-12"
+      "url": "https://expo.dev/blog/how-to-set-up-agentic-workflows",
+      "publishedAt": "2026-11-13"
     }
   ]
 }

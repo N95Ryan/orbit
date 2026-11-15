@@ -1,42 +1,20 @@
 {
   "version": 1,
-  "date": "2026-11-14",
-  "generatedAt": "2026-11-14T06:58:10-05:00",
-  "readingTime": 2,
+  "date": "2026-11-15",
+  "generatedAt": "2026-11-15T06:53:01-05:00",
+  "readingTime": 1,
   "headlines": [
-    "Claude Code 2.1.325 : faille zstd corrigée, sandbox Bash durci",
-    "Supabase : mot de passe et codes de secours pour ton compte",
-    "Expo : guide pour brancher des agents sur EAS Workflows"
+    "Cloudflare : plafonds de dépenses pour Workers et Durable Objects"
   ],
   "items": [
     {
-      "topic": "claude",
-      "kind": "security",
-      "title": "Claude Code 2.1.325 : correctif de sécurité et permissions resserrées",
-      "summary": "Publiée le 13 novembre, cette version corrige une faille dans le décodage des réponses compressées en zstd et ferme plusieurs trous par lesquels certaines commandes Bash, composées ou visées par des règles deny/ask, passaient sans confirmation. Changement de comportement : les commandes Bash en sandbox suivent désormais le flux de permissions normal, sauf si sandbox.autoAllowBashIfSandboxed vaut true. Le réglage subagentStatusLine disparaît, et le format ref des marketplaces change, ce qui empêche les anciens clients de charger certaines marketplaces épinglées.",
-      "whyItMatters": "Mets à jour Claude Code dès maintenant, et attends-toi à plus de demandes de confirmation en mode sandbox si tu comptais sur l'auto-approbation.",
-      "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21325",
-      "publishedAt": "2026-11-13"
-    },
-    {
-      "topic": "supabase",
+      "topic": "cloudflare",
       "kind": "release",
-      "title": "Supabase : options de connexion de secours pour les comptes",
-      "summary": "La page Account Security du dashboard permet maintenant d'ajouter un mot de passe à un compte qui se connecte uniquement via un fournisseur OAuth comme GitHub. Les comptes avec MFA reçoivent 10 codes de récupération à usage unique, avec le nombre restant affiché et la possibilité d'en régénérer. Aucune action n'est obligatoire et le self-hosted n'est pas concerné.",
-      "whyItMatters": "Si tu te connectes à Supabase via GitHub, ajoute un mot de passe et génère tes codes pour ne pas perdre l'accès à tes side projects.",
-      "source": "supabase.com",
-      "url": "https://supabase.com/changelog/account-backup-sign-in",
-      "publishedAt": "2026-11-13"
-    },
-    {
-      "topic": "expo",
-      "kind": "article",
-      "title": "Expo : mettre en place des workflows agentiques",
-      "summary": "Tutoriel officiel qui fait suite au lancement d'Expo Simulators : connecter le dépôt GitHub, créer un utilisateur robot avec un token EXPO_TOKEN_SIMULATOR, brancher Claude via claude setup-token, puis donner aux workflows un token GitHub limité à un dépôt. Il décrit quatre workflows types : CI agentique qui teste chaque PR sur un simulateur cloud, issue vers PR, tri de bugs et QA en essaim. Simulators est réservé aux plans Starter, Production et Enterprise.",
-      "whyItMatters": "C'est la recette concrète pour qu'un agent Claude teste chaque PR de Flip sur un simulateur iOS dans EAS Workflows.",
-      "source": "expo.dev",
-      "url": "https://expo.dev/blog/how-to-set-up-agentic-workflows",
+      "title": "Cloudflare : limites de dépenses pour Workers et Durable Objects",
+      "summary": "Depuis le 13 novembre, on peut fixer un plafond de dépenses et des alertes email séparément pour Workers et pour Durable Objects, sur la période de facturation en cours. La configuration se fait dans Billing > Spend limits ou via la commande cf billing spend-policies create. Une fois le plafond atteint, les opérations supportées sont bloquées, par exemple les nouvelles invocations de Worker, sauf si tu désactives Block usage pour ne garder que les alertes. Le blocage n'est pas instantané : la dépense enregistrée peut dépasser la limite.",
+      "whyItMatters": "Un plafond avec alertes sur Workers te protège d'une facture surprise sur ryan-pina.dev ou LYVATH en cas de pic de trafic ou de bot.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-13-spend-management/",
       "publishedAt": "2026-11-13"
     }
   ]

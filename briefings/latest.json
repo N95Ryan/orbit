@@ -1,21 +1,10 @@
 {
   "version": 1,
-  "date": "2026-11-15",
-  "generatedAt": "2026-11-15T06:53:01-05:00",
+  "date": "2026-11-16",
+  "generatedAt": "2026-11-16T06:58:50-05:00",
   "readingTime": 1,
   "headlines": [
-    "Cloudflare : plafonds de dépenses pour Workers et Durable Objects"
+    "Rien de neuf aujourd'hui"
   ],
-  "items": [
-    {
-      "topic": "cloudflare",
-      "kind": "release",
-      "title": "Cloudflare : limites de dépenses pour Workers et Durable Objects",
-      "summary": "Depuis le 13 novembre, on peut fixer un plafond de dépenses et des alertes email séparément pour Workers et pour Durable Objects, sur la période de facturation en cours. La configuration se fait dans Billing > Spend limits ou via la commande cf billing spend-policies create. Une fois le plafond atteint, les opérations supportées sont bloquées, par exemple les nouvelles invocations de Worker, sauf si tu désactives Block usage pour ne garder que les alertes. Le blocage n'est pas instantané : la dépense enregistrée peut dépasser la limite.",
-      "whyItMatters": "Un plafond avec alertes sur Workers te protège d'une facture surprise sur ryan-pina.dev ou LYVATH en cas de pic de trafic ou de bot.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-13-spend-management/",
-      "publishedAt": "2026-11-13"
-    }
-  ]
+  "items": []
 }

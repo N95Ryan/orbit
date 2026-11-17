@@ -1,10 +1,21 @@
 {
   "version": 1,
-  "date": "2026-11-16",
-  "generatedAt": "2026-11-16T06:58:50-05:00",
+  "date": "2026-11-17",
+  "generatedAt": "2026-11-17T06:48:55-05:00",
   "readingTime": 1,
   "headlines": [
-    "Rien de neuf aujourd'hui"
+    "Rust nightly : frontend parallèle activé par défaut"
   ],
-  "items": []
+  "items": [
+    {
+      "topic": "rust",
+      "kind": "article",
+      "title": "Le frontend parallèle de rustc activé par défaut sur nightly",
+      "summary": "Depuis nightly-2026-11-14, le type checking et le borrow checking de rustc tournent sur 2 threads par défaut ; stable reste séquentiel. Les benchmarks annoncent environ -22 % sur cargo check avec 2 threads et jusqu'à -44 % avec 8. On ajuste via RUSTFLAGS avec -Zunstable-options --jobs-frontend=N (1 pour désactiver). Aucune date de stabilisation : l'équipe attend des retours, surtout sur les crashs et les binaires non reproductibles.",
+      "whyItMatters": "Si tu testes Rust sur nightly, tes cargo check devraient être nettement plus rapides sans rien changer.",
+      "source": "blog.rust-lang.org",
+      "url": "https://blog.rust-lang.org/2026/11/16/enabling-parallel-frontend-on-nightly/",
+      "publishedAt": "2026-11-16"
+    }
+  ]
 }

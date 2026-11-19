@@ -1,43 +1,53 @@
 {
   "version": 1,
-  "date": "2026-11-18",
-  "generatedAt": "2026-11-18T06:55:00-05:00",
+  "date": "2026-11-19",
+  "generatedAt": "2026-11-19T06:49:45-05:00",
   "readingTime": 2,
   "headlines": [
-    "Cloudflare CLI cf 1.0 : release candidate disponible",
-    "Claude Code 2.1.326 : Code Mode avec agent teams",
-    "Supabase : OIDC custom pour l'auth tierce dans le Dashboard"
+    "Claude Code 2.1.327 : mcp add-json et diagnostics dans /status",
+    "Next.js : 51 avis de sécurité en 2026, alerte en dev désormais",
+    "Anthropic en bourse : IPO à 83 $, cotée ANT au Nasdaq"
   ],
   "items": [
     {
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude Code 2.1.327",
+      "summary": "Nouvelle commande claude mcp add-json <nom> - qui lit la config JSON d'un serveur MCP depuis stdin, pour ne plus mettre de tokens dans la ligne de commande. /status liste désormais les fichiers d'agents, skills et commandes cassés, les erreurs de raccourcis et les hooks dont le matcher ne correspond jamais. claude mcp add/remove en scope projet n'écrase plus les autres clés de .mcp.json, /export demande avant d'écraser un fichier, et ExitWorktree demande confirmation avant de supprimer un worktree qui peut contenir du travail non sauvegardé. Le mode auto ignore aussi davantage de règles larges du type Bash(pnpm dlx *).",
+      "whyItMatters": "Pour brancher tes serveurs MCP sans laisser de secrets dans l'historique du shell, et repérer d'un coup d'œil un hook ou un skill mal configuré.",
+      "source": "github.com",
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.327",
+      "publishedAt": "2026-11-17"
+    },
+    {
       "topic": "cloudflare",
       "kind": "release",
-      "title": "Cloudflare CLI (cf) 1.0.0-rc.1 disponible",
-      "summary": "Le nouveau CLI cf, en bêta depuis fin septembre, passe en release candidate avant la 1.0. Nouveautés : Build Output v1 dans .cloudflare/output/v1/, cf observability tail pour streamer les logs en NDJSON, cf deploy ./dist pour déployer un dossier statique sans build, et cf init qui génère des Workers avec Vite+. Pour les utilisateurs de la bêta, plusieurs changements cassants : messages sur stderr, commandes API en kebab-case, accountId à définir dans cloudflare.config.ts ou CLOUDFLARE_ACCOUNT_ID. Les projets Wrangler demandent Wrangler 4.163.0+ et cf propose cf migrate quand il trouve une config Wrangler.",
-      "whyItMatters": "C'est le probable successeur de Wrangler pour déployer ryan-pina.dev et LYVATH sur Workers : bon moment pour tester cf migrate sur une branche.",
+      "title": "Cloudflare Images : une syntaxe unique pour les URLs et cf.image",
+      "summary": "Les options de transformation d'images utilisent maintenant la même structure imbriquée dans les URLs et dans les options cf.image des Workers, par exemple trim=(mode=color,color=red,tolerance=10). Gravity, quality, fit/upscale et width auto passent à des réglages nommés. Les bordures et overlays (draw), jusqu'ici réservés aux Workers, sont disponibles directement dans l'URL, ce qui permet un filigrane sans code. L'ancienne syntaxe continue de fonctionner.",
+      "whyItMatters": "Rien à migrer sur ryan-pina.dev ou LYVATH, mais un watermark ou un overlay devient faisable par simple URL si tu sers tes images via Cloudflare.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-17-release-candidate/",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-18-consistent-optimization-interfaces/",
+      "publishedAt": "2026-11-18"
+    },
+    {
+      "topic": "nextjs",
+      "kind": "article",
+      "title": "Next.js explique la hausse des avis de sécurité",
+      "summary": "L'équipe Next.js compte 51 avis de sécurité en 2026, contre 14 en 2025 et 6 en 2024, et l'attribue surtout à l'IA qui rend la découverte de bugs anciens bon marché : 70 % touchaient du code vieux d'au moins un an. Les correctifs sortent désormais environ une fois par mois, annoncés à l'avance. Depuis Next.js 16.4, next dev et next build signalent une version vulnérable, et npx next@canary upgrade --agent choisit la dernière version sûre dans la même majeure puis confie la mise à jour à ton agent de code.",
+      "whyItMatters": "Tant qu'il te reste des apps Next.js à migrer vers TanStack, cette alerte et l'upgrade par agent réduisent le coût de rester patché en attendant.",
+      "source": "nextjs.org",
+      "url": "https://nextjs.org/blog/how-were-using-ai-to-make-nextjs-more-secure",
       "publishedAt": "2026-11-17"
     },
     {
       "topic": "claude",
-      "kind": "release",
-      "title": "Claude Code 2.1.326",
-      "summary": "Le Code Mode peut maintenant être activé en même temps que les agent teams. Un avertissement au démarrage signale les entrées --allowedTools, --disallowedTools ou --tools qui ne ressemblent pas à une règle complète, et /status indique quand une variable comme DISABLE_TELEMETRY désactive des fonctionnalités. Côté correctifs : les sessions reprises ne perdent plus leurs derniers tours après un crash, et les commandes bash qui suppriment ou écrasent des fichiers ne sont plus résumées comme de simples lectures.",
-      "whyItMatters": "Tu l'utilises tous les jours : la reprise de session plus fiable et l'alerte sur les règles d'outils mal écrites évitent des surprises.",
-      "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.326",
-      "publishedAt": "2026-11-16"
-    },
-    {
-      "topic": "supabase",
-      "kind": "release",
-      "title": "Fournisseurs OIDC custom pour l'auth tierce depuis le Dashboard",
-      "summary": "La page Third-Party Auth accepte désormais n'importe quel fournisseur OIDC via son issuer URL, en plus de Firebase, Clerk, WorkOS, Auth0 et Cognito. L'issuer doit être en HTTPS et exposer ses clés via /.well-known/openid-configuration ; les JWKS custom ou inline restent réservés à la Management API. Les issuers ajoutés par API apparaissent maintenant dans la liste et peuvent être supprimés depuis le Dashboard.",
-      "whyItMatters": "Sur tes side projects Supabase, tu peux brancher un fournisseur d'identité maison sans passer par l'API de gestion.",
-      "source": "supabase.com",
-      "url": "https://supabase.com/changelog/custom-oidc-third-party-auth",
-      "publishedAt": "2026-11-17"
+      "kind": "article",
+      "title": "Anthropic fixe le prix de son introduction en bourse",
+      "summary": "Anthropic, PBC a fixé son IPO à 83 $ par action pour 980 millions d'actions de classe A, dont environ 956 millions émises par l'entreprise. Le titre est coté au Nasdaq Global Select Market sous le symbole ANT, avec une première séance le 19 novembre 2026.",
+      "whyItMatters": "Aucun impact technique immédiat sur ton usage de Claude, mais c'est le contexte business de l'outil que tu utilises tous les jours.",
+      "source": "anthropic.com",
+      "url": "https://www.anthropic.com/news/anthropic-prices-initial-public-offering",
+      "publishedAt": "2026-11-18"
     }
   ]
 }

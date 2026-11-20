@@ -1,53 +1,63 @@
 {
   "version": 1,
-  "date": "2026-11-19",
-  "generatedAt": "2026-11-19T06:49:45-05:00",
+  "date": "2026-11-20",
+  "generatedAt": "2026-11-20T06:49:16-05:00",
   "readingTime": 2,
   "headlines": [
-    "Claude Code 2.1.327 : mcp add-json et diagnostics dans /status",
-    "Next.js : 51 avis de sécurité en 2026, alerte en dev désormais",
-    "Anthropic en bourse : IPO à 83 $, cotée ANT au Nasdaq"
+    "Bun 1.4.5 : release de sécurité (TLS, HTTP/3, DNS), à appliquer",
+    "Cloudflare Workers : versions de plus de 30 jours supprimées",
+    "Claude Code 2.1.329 : tâches planifiées à reprogrammer"
   ],
   "items": [
     {
+      "topic": "bun",
+      "kind": "security",
+      "title": "Bun 1.4.5, release de sécurité",
+      "summary": "Bun 1.4.5 est une release de sécurité qui touche HTTP/3, TLS et DNS, sans CVE détaillées dans l'annonce. Elle met à jour lsquic (4.11.2), c-ares (1.34.9), SQLite (3.54.1), llhttp (9.4.4) et BoringSSL (novembre 2026), ce qui concerne Bun.serve, fetch, node:tls, node:https et node:dns. Les certificats racine personnalisés sont validés plus strictement, et SQLite 3.54 refuse désormais d'ajouter, renommer ou supprimer via ALTER TABLE une colonne nommée rowid, oid ou _rowid_.",
+      "whyItMatters": "Tu utilises Bun tous les jours : un bun upgrade suffit, vérifie juste qu'aucun script ne dépend d'un certificat racine maison.",
+      "source": "bun.com",
+      "url": "https://bun.com/blog/bun-v1.4.5",
+      "publishedAt": "2026-11-19"
+    },
+    {
+      "topic": "cloudflare",
+      "kind": "breaking",
+      "title": "Workers et Pages ne gardent plus les versions que 30 jours",
+      "summary": "Les versions de Workers et les déploiements Pages de plus de 30 jours sont désormais supprimés, sauf les 100 plus récents et celui actuellement déployé. Les Version URLs et les URLs de preview Pages des éléments supprimés cessent de fonctionner, et ces éléments disparaissent du dashboard et de l'API.",
+      "whyItMatters": "Si tu partages d'anciennes URLs de preview de ryan-pina.dev ou LYVATH, elles peuvent casser ; un rollback vers une très vieille version ne sera plus possible.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-19-workers-pages-version-retention/",
+      "publishedAt": "2026-11-19"
+    },
+    {
       "topic": "claude",
       "kind": "release",
-      "title": "Claude Code 2.1.327",
-      "summary": "Nouvelle commande claude mcp add-json <nom> - qui lit la config JSON d'un serveur MCP depuis stdin, pour ne plus mettre de tokens dans la ligne de commande. /status liste désormais les fichiers d'agents, skills et commandes cassés, les erreurs de raccourcis et les hooks dont le matcher ne correspond jamais. claude mcp add/remove en scope projet n'écrase plus les autres clés de .mcp.json, /export demande avant d'écraser un fichier, et ExitWorktree demande confirmation avant de supprimer un worktree qui peut contenir du travail non sauvegardé. Le mode auto ignore aussi davantage de règles larges du type Bash(pnpm dlx *).",
-      "whyItMatters": "Pour brancher tes serveurs MCP sans laisser de secrets dans l'historique du shell, et repérer d'un coup d'œil un hook ou un skill mal configuré.",
+      "title": "Claude Code 2.1.329",
+      "summary": "Les tâches planifiées enregistrées par les versions précédentes doivent pour la plupart être reprogrammées dans les nouvelles sessions connectées, même si un --resume de leur propre session les relance encore. /tasks affiche maintenant les tâches planifiées, les réveils /loop, l'objectif et les forks de la conversation. /code-review sans cible revoit toute la branche par rapport à la branche par défaut, et /code-review <numéro de PR> lit la PR via gh pr diff. /status gagne une ligne « Marketplace auto-update ».",
+      "whyItMatters": "Si tu as des tâches planifiées créées depuis Claude Code en local, vérifie qu'elles tournent encore et reprogramme-les au besoin.",
       "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.327",
-      "publishedAt": "2026-11-17"
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21329",
+      "publishedAt": "2026-11-19"
     },
     {
       "topic": "cloudflare",
       "kind": "release",
-      "title": "Cloudflare Images : une syntaxe unique pour les URLs et cf.image",
-      "summary": "Les options de transformation d'images utilisent maintenant la même structure imbriquée dans les URLs et dans les options cf.image des Workers, par exemple trim=(mode=color,color=red,tolerance=10). Gravity, quality, fit/upscale et width auto passent à des réglages nommés. Les bordures et overlays (draw), jusqu'ici réservés aux Workers, sont disponibles directement dans l'URL, ce qui permet un filigrane sans code. L'ancienne syntaxe continue de fonctionner.",
-      "whyItMatters": "Rien à migrer sur ryan-pina.dev ou LYVATH, mais un watermark ou un overlay devient faisable par simple URL si tu sers tes images via Cloudflare.",
+      "title": "TCP entrant et gRPC pour Workers et Containers en bêta publique",
+      "summary": "Les Workers peuvent recevoir du TCP entrant via Spectrum, et les Containers gèrent le gRPC bidirectionnel, en bêta publique. Une application Spectrum avec un Worker comme origine demande une zone Pro ou Business, limitée à une application par zone sur un seul port TCP ; les zones Enterprise passent par Spectrum Enterprise.",
+      "whyItMatters": "Ouvre la porte à des services non-HTTP sur Cloudflare, à garder en tête si une API Go en gRPC doit un jour tourner en Container.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-18-consistent-optimization-interfaces/",
-      "publishedAt": "2026-11-18"
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-19-inbound-tcp/",
+      "publishedAt": "2026-11-19"
     },
     {
-      "topic": "nextjs",
+      "topic": "expo",
       "kind": "article",
-      "title": "Next.js explique la hausse des avis de sécurité",
-      "summary": "L'équipe Next.js compte 51 avis de sécurité en 2026, contre 14 en 2025 et 6 en 2024, et l'attribue surtout à l'IA qui rend la découverte de bugs anciens bon marché : 70 % touchaient du code vieux d'au moins un an. Les correctifs sortent désormais environ une fois par mois, annoncés à l'avance. Depuis Next.js 16.4, next dev et next build signalent une version vulnérable, et npx next@canary upgrade --agent choisit la dernière version sûre dans la même majeure puis confie la mise à jour à ton agent de code.",
-      "whyItMatters": "Tant qu'il te reste des apps Next.js à migrer vers TanStack, cette alerte et l'upgrade par agent réduisent le coût de rester patché en attendant.",
-      "source": "nextjs.org",
-      "url": "https://nextjs.org/blog/how-were-using-ai-to-make-nextjs-more-secure",
-      "publishedAt": "2026-11-17"
-    },
-    {
-      "topic": "claude",
-      "kind": "article",
-      "title": "Anthropic fixe le prix de son introduction en bourse",
-      "summary": "Anthropic, PBC a fixé son IPO à 83 $ par action pour 980 millions d'actions de classe A, dont environ 956 millions émises par l'entreprise. Le titre est coté au Nasdaq Global Select Market sous le symbole ANT, avec une première séance le 19 novembre 2026.",
-      "whyItMatters": "Aucun impact technique immédiat sur ton usage de Claude, mais c'est le contexte business de l'outil que tu utilises tous les jours.",
-      "source": "anthropic.com",
-      "url": "https://www.anthropic.com/news/anthropic-prices-initial-public-offering",
-      "publishedAt": "2026-11-18"
+      "title": "Expo Simulators disponible pour tous, avec des workflows agentiques",
+      "summary": "Expo Simulators, des simulateurs iOS et émulateurs Android dans le cloud pilotables par des agents, passe en disponibilité générale. L'article montre trois workflows : un retour TestFlight qui ouvre une issue qu'un agent reproduit puis corrige dans une PR, un assistant de PR déclenché par @expo-bot qui poste des preuves PASS/FAIL, et une « QA swarm » de cinq agents en parallèle. On lance un simulateur avec eas simulator:start.",
+      "whyItMatters": "Pour Flip, ça permettrait de faire vérifier une PR sur un vrai simulateur iOS et Android en CI, captures à l'appui, sans Mac dédié.",
+      "source": "expo.dev",
+      "url": "https://expo.dev/blog/agentic-workflows-with-expo-simulators",
+      "publishedAt": "2026-11-19"
     }
   ]
 }

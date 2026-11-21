@@ -1,63 +1,43 @@
 {
   "version": 1,
-  "date": "2026-11-20",
-  "generatedAt": "2026-11-20T06:49:16-05:00",
-  "readingTime": 2,
+  "date": "2026-11-21",
+  "generatedAt": "2026-11-21T06:49:03-05:00",
+  "readingTime": 1,
   "headlines": [
-    "Bun 1.4.5 : release de sécurité (TLS, HTTP/3, DNS), à appliquer",
-    "Cloudflare Workers : versions de plus de 30 jours supprimées",
-    "Claude Code 2.1.329 : tâches planifiées à reprogrammer"
+    "Claude Code 2.1.330 : tâches planifiées et /loop jusqu'à 30 jours",
+    "Cloudflare Agents SDK 0.34 : Pi 1.6, pas de retour arrière",
+    "Browser Run : exécuter un script Playwright en une requête"
   ],
   "items": [
     {
-      "topic": "bun",
-      "kind": "security",
-      "title": "Bun 1.4.5, release de sécurité",
-      "summary": "Bun 1.4.5 est une release de sécurité qui touche HTTP/3, TLS et DNS, sans CVE détaillées dans l'annonce. Elle met à jour lsquic (4.11.2), c-ares (1.34.9), SQLite (3.54.1), llhttp (9.4.4) et BoringSSL (novembre 2026), ce qui concerne Bun.serve, fetch, node:tls, node:https et node:dns. Les certificats racine personnalisés sont validés plus strictement, et SQLite 3.54 refuse désormais d'ajouter, renommer ou supprimer via ALTER TABLE une colonne nommée rowid, oid ou _rowid_.",
-      "whyItMatters": "Tu utilises Bun tous les jours : un bun upgrade suffit, vérifie juste qu'aucun script ne dépend d'un certificat racine maison.",
-      "source": "bun.com",
-      "url": "https://bun.com/blog/bun-v1.4.5",
-      "publishedAt": "2026-11-19"
-    },
-    {
-      "topic": "cloudflare",
-      "kind": "breaking",
-      "title": "Workers et Pages ne gardent plus les versions que 30 jours",
-      "summary": "Les versions de Workers et les déploiements Pages de plus de 30 jours sont désormais supprimés, sauf les 100 plus récents et celui actuellement déployé. Les Version URLs et les URLs de preview Pages des éléments supprimés cessent de fonctionner, et ces éléments disparaissent du dashboard et de l'API.",
-      "whyItMatters": "Si tu partages d'anciennes URLs de preview de ryan-pina.dev ou LYVATH, elles peuvent casser ; un rollback vers une très vieille version ne sera plus possible.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-19-workers-pages-version-retention/",
-      "publishedAt": "2026-11-19"
-    },
-    {
       "topic": "claude",
       "kind": "release",
-      "title": "Claude Code 2.1.329",
-      "summary": "Les tâches planifiées enregistrées par les versions précédentes doivent pour la plupart être reprogrammées dans les nouvelles sessions connectées, même si un --resume de leur propre session les relance encore. /tasks affiche maintenant les tâches planifiées, les réveils /loop, l'objectif et les forks de la conversation. /code-review sans cible revoit toute la branche par rapport à la branche par défaut, et /code-review <numéro de PR> lit la PR via gh pr diff. /status gagne une ligne « Marketplace auto-update ».",
-      "whyItMatters": "Si tu as des tâches planifiées créées depuis Claude Code en local, vérifie qu'elles tournent encore et reprogramme-les au besoin.",
+      "title": "Claude Code 2.1.330",
+      "summary": "Les tâches planifiées récurrentes et /loop tournent désormais jusqu'à 30 jours au lieu de 7, mais celles créées avant cette version s'arrêtent toujours à 7 jours. Davantage de commandes rm visant la racine, le home, un dossier de premier niveau ou le dossier de travail demandent une approbation. Le retrait du retry automatique quand max_tokens dépasse une limite, introduit en 2.1.329, est annulé, et claude -p sort maintenant en code 1 si le disque de sortie est plein. Côté VS Code, /fork et /workflows arrivent.",
+      "whyItMatters": "Si tu as des /loop ou tâches planifiées locales créées avant, recrée-les pour profiter de la limite de 30 jours.",
       "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21329",
-      "publishedAt": "2026-11-19"
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21330",
+      "publishedAt": "2026-11-21"
     },
     {
       "topic": "cloudflare",
       "kind": "release",
-      "title": "TCP entrant et gRPC pour Workers et Containers en bêta publique",
-      "summary": "Les Workers peuvent recevoir du TCP entrant via Spectrum, et les Containers gèrent le gRPC bidirectionnel, en bêta publique. Une application Spectrum avec un Worker comme origine demande une zone Pro ou Business, limitée à une application par zone sur un seul port TCP ; les zones Enterprise passent par Spectrum Enterprise.",
-      "whyItMatters": "Ouvre la porte à des services non-HTTP sur Cloudflare, à garder en tête si une API Go en gRPC doit un jour tourner en Container.",
+      "title": "Agents SDK v0.34.0 : PiHarness passe à Pi 1.6",
+      "summary": "L'Agents SDK v0.34.0 fait passer PiHarness à Pi 1.6. Les outils peuvent se mettre en attente jusqu'à un signal ou une échéance (harness.signal()), des validations manuelles passent par beforeTool, et reconnectMcpServer(id) gère la reconnexion MCP. Les requêtes en échec renvoient maintenant une 500 générique, personnalisable via onFetchError(). Une conversation passée sur Pi 1.6 ne peut plus tourner sous Pi 1.5.",
+      "whyItMatters": "Seulement utile si tu expérimentes des agents sur Workers : la migration vers Pi 1.6 est à sens unique, teste avant de déployer.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-19-inbound-tcp/",
-      "publishedAt": "2026-11-19"
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-pi-harness-pi-1-6/",
+      "publishedAt": "2026-11-20"
     },
     {
-      "topic": "expo",
-      "kind": "article",
-      "title": "Expo Simulators disponible pour tous, avec des workflows agentiques",
-      "summary": "Expo Simulators, des simulateurs iOS et émulateurs Android dans le cloud pilotables par des agents, passe en disponibilité générale. L'article montre trois workflows : un retour TestFlight qui ouvre une issue qu'un agent reproduit puis corrige dans une PR, un assistant de PR déclenché par @expo-bot qui poste des preuves PASS/FAIL, et une « QA swarm » de cinq agents en parallèle. On lance un simulateur avec eas simulator:start.",
-      "whyItMatters": "Pour Flip, ça permettrait de faire vérifier une PR sur un vrai simulateur iOS et Android en CI, captures à l'appui, sans Mac dédié.",
-      "source": "expo.dev",
-      "url": "https://expo.dev/blog/agentic-workflows-with-expo-simulators",
-      "publishedAt": "2026-11-19"
+      "topic": "cloudflare",
+      "kind": "release",
+      "title": "Browser Run : endpoints /script",
+      "summary": "Browser Run ajoute des endpoints /script qui exécutent une fonction JavaScript écrite pour Playwright, Puppeteer ou CDP brut en une seule requête API, sans déployer de Worker. Les identifiants de session reviennent dans les en-têtes, et POST /script/<sessionId> permet d'enchaîner sur la même session, qui reste ouverte après le script.",
+      "whyItMatters": "Pratique pour des tests visuels ou des captures de ryan-pina.dev ou LYVATH sans maintenir de navigateur headless toi-même.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-script-endpoint/",
+      "publishedAt": "2026-11-20"
     }
   ]
 }

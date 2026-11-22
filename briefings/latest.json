@@ -1,42 +1,31 @@
 {
   "version": 1,
-  "date": "2026-11-21",
-  "generatedAt": "2026-11-21T06:49:03-05:00",
+  "date": "2026-11-22",
+  "generatedAt": "2026-11-22T06:48:35-05:00",
   "readingTime": 1,
   "headlines": [
-    "Claude Code 2.1.330 : tâches planifiées et /loop jusqu'à 30 jours",
-    "Cloudflare Agents SDK 0.34 : Pi 1.6, pas de retour arrière",
-    "Browser Run : exécuter un script Playwright en une requête"
+    "Workers for Platforms : plus de renommage des dispatch namespaces",
+    "Radar Zero Wire : une page par CVE, avec flux RSS et JSON"
   ],
   "items": [
     {
-      "topic": "claude",
-      "kind": "release",
-      "title": "Claude Code 2.1.330",
-      "summary": "Les tâches planifiées récurrentes et /loop tournent désormais jusqu'à 30 jours au lieu de 7, mais celles créées avant cette version s'arrêtent toujours à 7 jours. Davantage de commandes rm visant la racine, le home, un dossier de premier niveau ou le dossier de travail demandent une approbation. Le retrait du retry automatique quand max_tokens dépasse une limite, introduit en 2.1.329, est annulé, et claude -p sort maintenant en code 1 si le disque de sortie est plein. Côté VS Code, /fork et /workflows arrivent.",
-      "whyItMatters": "Si tu as des /loop ou tâches planifiées locales créées avant, recrée-les pour profiter de la limite de 30 jours.",
-      "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21330",
-      "publishedAt": "2026-11-21"
-    },
-    {
       "topic": "cloudflare",
-      "kind": "release",
-      "title": "Agents SDK v0.34.0 : PiHarness passe à Pi 1.6",
-      "summary": "L'Agents SDK v0.34.0 fait passer PiHarness à Pi 1.6. Les outils peuvent se mettre en attente jusqu'à un signal ou une échéance (harness.signal()), des validations manuelles passent par beforeTool, et reconnectMcpServer(id) gère la reconnexion MCP. Les requêtes en échec renvoient maintenant une 500 générique, personnalisable via onFetchError(). Une conversation passée sur Pi 1.6 ne peut plus tourner sous Pi 1.5.",
-      "whyItMatters": "Seulement utile si tu expérimentes des agents sur Workers : la migration vers Pi 1.6 est à sens unique, teste avant de déployer.",
+      "kind": "breaking",
+      "title": "Workers for Platforms : les dispatch namespaces ne peuvent plus être renommés",
+      "summary": "Les appels PUT et PATCH qui modifient le nom d'un dispatch namespace renvoient désormais une erreur 400 (code 100413), et wrangler comme Terraform refusent aussi le renommage. Cloudflare documente une migration : créer un nouveau namespace puis y redéployer les Workers.",
+      "whyItMatters": "Aucun impact sur ryan-pina.dev ou LYVATH, qui n'utilisent pas Workers for Platforms ; à garder en tête seulement si tu montes un jour du multi-tenant sur Workers.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-pi-harness-pi-1-6/",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-dispatch-namespace-rename-removed/",
       "publishedAt": "2026-11-20"
     },
     {
       "topic": "cloudflare",
-      "kind": "release",
-      "title": "Browser Run : endpoints /script",
-      "summary": "Browser Run ajoute des endpoints /script qui exécutent une fonction JavaScript écrite pour Playwright, Puppeteer ou CDP brut en une seule requête API, sans déployer de Worker. Les identifiants de session reviennent dans les en-têtes, et POST /script/<sessionId> permet d'enchaîner sur la même session, qui reste ouverte après le script.",
-      "whyItMatters": "Pratique pour des tests visuels ou des captures de ryan-pina.dev ou LYVATH sans maintenir de navigateur headless toi-même.",
+      "kind": "article",
+      "title": "Radar Zero Wire : une page pour chaque CVE publiée",
+      "summary": "Zero Wire, dans Cloudflare Radar, propose maintenant une page par CVE publiée avec la sévérité, les données d'exploitation KEV et EPSS, les produits touchés, les correctifs et les références. Des flux RSS, Atom et JSON sont disponibles.",
+      "whyItMatters": "Un flux JSON de CVE avec scores EPSS peut servir à surveiller les failles de ta stack (Go, React, Bun, Expo) sans dépendre uniquement des annonces de chaque projet.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-script-endpoint/",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-radar-zero-wire-cves/",
       "publishedAt": "2026-11-20"
     }
   ]

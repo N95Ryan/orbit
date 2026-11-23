@@ -1,31 +1,31 @@
 {
   "version": 1,
-  "date": "2026-11-22",
-  "generatedAt": "2026-11-22T06:48:35-05:00",
+  "date": "2026-11-23",
+  "generatedAt": "2026-11-23T06:49:01-05:00",
   "readingTime": 1,
   "headlines": [
-    "Workers for Platforms : plus de renommage des dispatch namespaces",
-    "Radar Zero Wire : une page par CVE, avec flux RSS et JSON"
+    "Cloudflare DNS : le booléen foundation_dns retiré de l'API",
+    "Claude : nouvelle interface mobile, computer use en Team/Enterprise"
   ],
   "items": [
     {
       "topic": "cloudflare",
       "kind": "breaking",
-      "title": "Workers for Platforms : les dispatch namespaces ne peuvent plus être renommés",
-      "summary": "Les appels PUT et PATCH qui modifient le nom d'un dispatch namespace renvoient désormais une erreur 400 (code 100413), et wrangler comme Terraform refusent aussi le renommage. Cloudflare documente une migration : créer un nouveau namespace puis y redéployer les Workers.",
-      "whyItMatters": "Aucun impact sur ryan-pina.dev ou LYVATH, qui n'utilisent pas Workers for Platforms ; à garder en tête seulement si tu montes un jour du multi-tenant sur Workers.",
+      "title": "API DNS settings : le booléen foundation_dns n'est plus accepté",
+      "summary": "Depuis le 23 novembre, les endpoints de paramètres DNS (zone et défauts du compte) ne renvoient plus et n'acceptent plus le champ déprécié foundation_dns ; un PATCH qui l'inclut est rejeté. Il faut utiliser nameservers.type: \"cloudflare.advanced\" à la place. Le déploiement s'étale sur sept jours et ne change ni l'abonnement Foundation DNS ni la configuration des zones.",
+      "whyItMatters": "Impact seulement si un script ou une config Terraform de tes domaines (ryan-pina.dev, LYVATH) envoie encore foundation_dns ; sinon rien à faire.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-dispatch-namespace-rename-removed/",
-      "publishedAt": "2026-11-20"
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-23-remove-foundation-dns-boolean/",
+      "publishedAt": "2026-11-23"
     },
     {
-      "topic": "cloudflare",
-      "kind": "article",
-      "title": "Radar Zero Wire : une page pour chaque CVE publiée",
-      "summary": "Zero Wire, dans Cloudflare Radar, propose maintenant une page par CVE publiée avec la sévérité, les données d'exploitation KEV et EPSS, les produits touchés, les correctifs et les références. Des flux RSS, Atom et JSON sont disponibles.",
-      "whyItMatters": "Un flux JSON de CVE avec scores EPSS peut servir à surveiller les failles de ta stack (Go, React, Bun, Expo) sans dépendre uniquement des annonces de chaque projet.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-20-radar-zero-wire-cves/",
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude : refonte de l'app mobile et computer use (bêta) pour Team et Enterprise",
+      "summary": "Anthropic déploie progressivement un nouveau look pour Claude Mobile, en commençant par iOS, qui demande désormais iOS 26 ou plus. Le computer use en bêta arrive aussi pour les forfaits Team et Enterprise, sur desktop, web et mobile, avec un déploiement graduel.",
+      "whyItMatters": "Si ton iPhone n'est pas encore sous iOS 26, la nouvelle app Claude ne s'installera pas ; le computer use ne te concerne que sur un forfait Team ou Enterprise.",
+      "source": "releasebot.io",
+      "url": "https://releasebot.io/updates/anthropic",
       "publishedAt": "2026-11-20"
     }
   ]

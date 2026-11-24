@@ -23,7 +23,10 @@ flowchart TD
 
 ## Topics
 
-Go · Rust · React · TanStack · Expo · Next.js · Astro · Supabase · Bun · Cloudflare · Claude
+- **Stack**: Go · Rust · React · TanStack · Expo · Next.js · Astro · Supabase · Bun · Cloudflare · Claude
+- **Hardware**: NVIDIA · AMD · Hardware · Storage · UGREEN
+- **Learning**: one System Design article every day
+- **Career**: IT job market in Canada & the US, as a weekly roundup on Mondays
 
 A topic only appears when there is real news. No filler.
 

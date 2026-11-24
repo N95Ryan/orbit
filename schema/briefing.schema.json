@@ -24,7 +24,7 @@
         "additionalProperties": false,
         "properties": {
           "topic": {
-            "enum": ["go", "rust", "react", "tanstack", "expo", "nextjs", "astro", "supabase", "bun", "cloudflare", "claude"]
+            "enum": ["go", "rust", "react", "tanstack", "expo", "nextjs", "astro", "supabase", "bun", "cloudflare", "claude", "system-design", "nvidia", "amd", "hardware", "storage", "ugreen", "jobs"]
           },
           "kind": { "enum": ["release", "breaking", "security", "article"] },
           "title": { "type": "string" },

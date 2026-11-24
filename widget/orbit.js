@@ -17,6 +17,13 @@ const TOPICS = {
   bun: { label: "Bun", color: "#F9A8D4" },
   cloudflare: { label: "Cloudflare", color: "#F38020" },
   claude: { label: "Claude", color: "#D97757" },
+  "system-design": { label: "System Design", color: "#14B8A6" },
+  nvidia: { label: "NVIDIA", color: "#76B900" },
+  amd: { label: "AMD", color: "#ED1C24" },
+  hardware: { label: "Hardware", color: "#94A3B8" },
+  storage: { label: "Stockage", color: "#6366F1" },
+  ugreen: { label: "UGREEN", color: "#38BDF8" },
+  jobs: { label: "Jobs", color: "#EAB308" },
 };
 
 const KINDS = {

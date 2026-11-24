@@ -1,10 +1,12 @@
 {
   "version": 1,
   "date": "2026-11-24",
-  "generatedAt": "2026-11-24T12:35:40-05:00",
-  "readingTime": 2,
+  "generatedAt": "2026-11-24T12:36:55-05:00",
+  "readingTime": 4,
   "headlines": [
-    "Claude Opus 4.5 : retrait de l'API le 22 janvier 2027"
+    "Claude Opus 4.5 : retrait de l'API le 22 janvier 2027",
+    "Claude Ship : review, correctifs et approbation de PR par Claude",
+    "NVIDIA : Jensen Huang réintégré comme PDG"
   ],
   "items": [
     {
@@ -15,6 +17,46 @@
       "whyItMatters": "Si un de tes scripts, agents ou side projects épingle claude-opus-4-5 en dur, il cassera fin janvier : un grep sur le nom du modèle suffit à le savoir.",
       "source": "platform.claude.com",
       "url": "https://platform.claude.com/docs/en/release-notes/overview",
+      "publishedAt": "2026-11-23"
+    },
+    {
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude Ship : Claude prend en charge une PR de la review à l'approbation",
+      "summary": "Anthropic lance Claude Ship, qui regroupe trois briques : Code Review (disponible, niveaux Quick, Standard ou Deep par dépôt), PR Steward (bêta, corrige les checks CI en échec, les conflits et les retours de review, sans jamais approuver ni merger) et Claude Approvals (bêta, applique une politique d'approbation écrite dans un fichier du dépôt). Côté développeur, il suffit de mettre à jour Claude Code et de lancer /ship sur une modification. Réservé aux forfaits Team et Enterprise, GitHub uniquement, facturé au token.",
+      "whyItMatters": "Sur un forfait individuel tu n'y as pas accès ; si Midbec passe en Team ou Enterprise, c'est une piste concrète pour absorber les PR de la migration React + Go.",
+      "source": "claude.com",
+      "url": "https://claude.com/resources/articles/introducing-claude-ship",
+      "publishedAt": "2026-11-23"
+    },
+    {
+      "topic": "cloudflare",
+      "kind": "release",
+      "title": "Profilage CPU et heap pour les Worker Previews",
+      "summary": "Il est désormais possible de capturer des profils CPU et mémoire (heap) sur les Worker Previews, via la CLI cf, l'API ou le dashboard. On peut donc mesurer les performances d'une version de preview avant de la promouvoir en production.",
+      "whyItMatters": "Pratique pour vérifier le coût CPU du rendu Astro de ryan-pina.dev ou LYVATH sur une preview avant de déployer.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-23-previews-profiling/",
+      "publishedAt": "2026-11-23"
+    },
+    {
+      "topic": "tanstack",
+      "kind": "release",
+      "title": "TanStack Query 5.108.3 : correctifs dans query-core",
+      "summary": "Cette version de maintenance empêche les boucles de rendu provoquées par des résultats de requête optimistes, libère correctement les requêtes remplacées via QueriesObserver.setQueries et conserve un placeholder que select transforme en undefined. partialMatchKey ne fait plus correspondre un tableau à un objet simple.",
+      "whyItMatters": "Mise à jour sans risque à faire sur tes fronts React si tu utilises des mises à jour optimistes ou useQueries.",
+      "source": "github.com",
+      "url": "https://github.com/TanStack/query/releases/tag/release-2026-11-22-2009",
+      "publishedAt": "2026-11-22"
+    },
+    {
+      "topic": "nvidia",
+      "kind": "article",
+      "title": "NVIDIA réintègre Jensen Huang comme PDG",
+      "summary": "Le conseil d'administration de NVIDIA a voté à l'unanimité la réintégration de Jensen Huang comme président, PDG et administrateur, avec effet immédiat, onze jours après l'annonce de sa démission le 12 novembre. Colette Kress, PDG par intérim entre-temps, reste directrice financière, et Harvey C. Jones reste président du conseil. Le communiqué annonce aussi une enquête menée par un comité d'administrateurs indépendants, la création d'un comité sécurité nationale et contrôle des exportations, et le recrutement d'un Chief Compliance Officer.",
+      "whyItMatters": "Aucun impact immédiat sur les GPU grand public ni les pilotes, mais c'est le contexte de gouvernance de NVIDIA à suivre avant ton futur build PC.",
+      "source": "sec.gov",
+      "url": "https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000090/nov23pressrelease.htm",
       "publishedAt": "2026-11-23"
     },
     {

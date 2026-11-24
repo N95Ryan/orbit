@@ -1,32 +1,43 @@
 {
   "version": 1,
-  "date": "2026-11-23",
-  "generatedAt": "2026-11-23T06:49:01-05:00",
+  "date": "2026-11-24",
+  "generatedAt": "2026-11-24T06:58:00-05:00",
   "readingTime": 1,
   "headlines": [
-    "Cloudflare DNS : le booléen foundation_dns retiré de l'API",
-    "Claude : nouvelle interface mobile, computer use en Team/Enterprise"
+    "Claude Ship : review, correctifs et approbation de PR par Claude",
+    "Cloudflare : profilage CPU et mémoire pour les Worker Previews",
+    "TanStack Query 5.108.3 : fin des boucles de rendu optimistes"
   ],
   "items": [
     {
-      "topic": "cloudflare",
-      "kind": "breaking",
-      "title": "API DNS settings : le booléen foundation_dns n'est plus accepté",
-      "summary": "Depuis le 23 novembre, les endpoints de paramètres DNS (zone et défauts du compte) ne renvoient plus et n'acceptent plus le champ déprécié foundation_dns ; un PATCH qui l'inclut est rejeté. Il faut utiliser nameservers.type: \"cloudflare.advanced\" à la place. Le déploiement s'étale sur sept jours et ne change ni l'abonnement Foundation DNS ni la configuration des zones.",
-      "whyItMatters": "Impact seulement si un script ou une config Terraform de tes domaines (ryan-pina.dev, LYVATH) envoie encore foundation_dns ; sinon rien à faire.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-23-remove-foundation-dns-boolean/",
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude Ship : Claude prend en charge une PR de la review à l'approbation",
+      "summary": "Anthropic lance Claude Ship, qui regroupe trois briques : Code Review (disponible, niveaux Quick, Standard ou Deep par dépôt), PR Steward (bêta, corrige les checks CI en échec, les conflits et les retours de review, sans jamais approuver ni merger) et Claude Approvals (bêta, applique une politique d'approbation écrite dans un fichier du dépôt). Côté développeur, il suffit de mettre à jour Claude Code et de lancer /ship sur une modification. Réservé aux forfaits Team et Enterprise, GitHub uniquement, facturé au token.",
+      "whyItMatters": "Sur un forfait individuel tu n'y as pas accès ; si Midbec passe en Team ou Enterprise, c'est une piste concrète pour absorber les PR de la migration React + Go.",
+      "source": "claude.com",
+      "url": "https://claude.com/resources/articles/introducing-claude-ship",
       "publishedAt": "2026-11-23"
     },
     {
-      "topic": "claude",
+      "topic": "cloudflare",
       "kind": "release",
-      "title": "Claude : refonte de l'app mobile et computer use (bêta) pour Team et Enterprise",
-      "summary": "Anthropic déploie progressivement un nouveau look pour Claude Mobile, en commençant par iOS, qui demande désormais iOS 26 ou plus. Le computer use en bêta arrive aussi pour les forfaits Team et Enterprise, sur desktop, web et mobile, avec un déploiement graduel.",
-      "whyItMatters": "Si ton iPhone n'est pas encore sous iOS 26, la nouvelle app Claude ne s'installera pas ; le computer use ne te concerne que sur un forfait Team ou Enterprise.",
-      "source": "releasebot.io",
-      "url": "https://releasebot.io/updates/anthropic",
-      "publishedAt": "2026-11-20"
+      "title": "Profilage CPU et heap pour les Worker Previews",
+      "summary": "Il est désormais possible de capturer des profils CPU et mémoire (heap) sur les Worker Previews, via la CLI cf, l'API ou le dashboard. On peut donc mesurer les performances d'une version de preview avant de la promouvoir en production.",
+      "whyItMatters": "Pratique pour vérifier le coût CPU du rendu Astro de ryan-pina.dev ou LYVATH sur une preview avant de déployer.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-23-previews-profiling/",
+      "publishedAt": "2026-11-23"
+    },
+    {
+      "topic": "tanstack",
+      "kind": "release",
+      "title": "TanStack Query 5.108.3 : correctifs dans query-core",
+      "summary": "Cette version de maintenance empêche les boucles de rendu provoquées par des résultats de requête optimistes, libère correctement les requêtes remplacées via QueriesObserver.setQueries et conserve un placeholder que select transforme en undefined. partialMatchKey ne fait plus correspondre un tableau à un objet simple.",
+      "whyItMatters": "Mise à jour sans risque à faire sur tes fronts React si tu utilises des mises à jour optimistes ou useQueries.",
+      "source": "github.com",
+      "url": "https://github.com/TanStack/query/releases/tag/release-2026-11-22-2009",
+      "publishedAt": "2026-11-22"
     }
   ]
 }

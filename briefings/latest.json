@@ -1,31 +1,53 @@
 {
   "version": 1,
-  "date": "2026-11-25",
-  "generatedAt": "2026-11-25T06:49:15-05:00",
+  "date": "2026-11-26",
+  "generatedAt": "2026-11-26T06:49:39-05:00",
   "readingTime": 2,
   "headlines": [
-    "Cloudflare Images : métadonnées EXIF/XMP mieux préservées"
+    "Cloudflare WAF : 2 règles d'urgence ajoutées au ruleset gratuit",
+    "Vite plugin Cloudflare 1.70.2 : Undici patché, Wrangler 4.168 requis",
+    "Workers : optimisation d'images par URL sur workers.dev et en local"
   ],
   "items": [
     {
       "topic": "cloudflare",
-      "kind": "release",
-      "title": "Cloudflare Images préserve davantage de métadonnées EXIF, XMP et IPTC",
-      "summary": "Le paramètre metadata de Cloudflare Images conserve désormais les métadonnées XMP, étend la préservation EXIF à davantage de formats de sortie et peut garder une partie des métadonnées IPTC-IIM des JPEG source. La valeur par défaut reste copyright, mais elle s'applique maintenant aussi aux sorties PNG, WebP et AVIF : des requêtes existantes peuvent donc conserver un tag EXIF copyright qu'elles supprimaient jusqu'ici.",
-      "whyItMatters": "Si tu sers des photos via Cloudflare Images sur ryan-pina.dev ou LYVATH, vérifie que metadata=none est bien fixé là où tu ne veux rien exposer (auteur, appareil, etc.).",
+      "kind": "security",
+      "title": "WAF Emergency Release du 24 novembre : deux nouvelles détections en mode Block",
+      "summary": "Cloudflare a poussé en urgence deux détections dans le Cloudflare Free Ruleset, toutes deux réglées sur Block : « Anomaly - Embedded Application Request » et « Generic Rules - Authentication Bypass ». En parallèle, une release planifiée pour le 1er décembre ajoutera en mode log des règles Dangerous File Upload, Magento Template Injection (CVE-2026-103849) et PHP Code Injection.",
+      "whyItMatters": "Ces règles s'activent sans action de ta part sur tes zones Cloudflare (ryan-pina.dev, LYVATH) : si un appel légitime se met à prendre des 403, regarde d'abord les Security Events.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-23-expanded-metadata-preservation/",
-      "publishedAt": "2026-11-23"
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-24-emergency-waf-release/",
+      "publishedAt": "2026-11-24"
+    },
+    {
+      "topic": "cloudflare",
+      "kind": "release",
+      "title": "@cloudflare/vite-plugin 1.70.2 : correctifs de sécurité Undici",
+      "summary": "La version 1.70.2 du plugin Vite de Cloudflare passe le runtime local sur une date de compatibilité de novembre et exige désormais Wrangler 4.168.0 ou plus récent. Elle monte Undici en 7.30.2 pour corriger des failles touchant les remote bindings, et ajoute l'authentification par token scopé pour ces bindings.",
+      "whyItMatters": "Si ton build Astro sur Workers passe par le plugin Vite Cloudflare, monte plugin et Wrangler ensemble, sinon le dev local refusera de démarrer.",
+      "source": "github.com",
+      "url": "https://github.com/cloudflare/workers-sdk/releases/tag/%40cloudflare%2Fvite-plugin%401.70.2",
+      "publishedAt": "2026-11-25"
+    },
+    {
+      "topic": "cloudflare",
+      "kind": "release",
+      "title": "Optimisation d'images par URL directement dans Workers",
+      "summary": "Les URLs de transformation Cloudflare Images (/cdn-cgi/image/...) fonctionnent maintenant sur les domaines workers.dev et en développement local, sans zone dédiée. On déclare jusqu'à 10 origines autorisées pour les images source.",
+      "whyItMatters": "Pour ryan-pina.dev sur Workers, tu peux redimensionner et convertir les images du portfolio à la volée et tester le rendu en local, sans pipeline d'images au build.",
+      "source": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-25-worker-scoped-url-transformations/",
+      "publishedAt": "2026-11-25"
     },
     {
       "topic": "system-design",
       "kind": "article",
-      "title": "Des clés d'idempotence à la Stripe dans Postgres",
-      "summary": "Problème : dès qu'une requête appelle un système externe (paiement Stripe, e-mail, événement Kafka), une erreur réseau laisse l'issue incertaine, et un simple retry peut facturer deux fois. Brandur Leach (ex-Stripe) stocke chaque requête dans une table idempotency_keys, unique sur (user_id, idempotency_key), avec les paramètres, la réponse finale et un recovery_point. La requête est découpée en phases atomiques, chacune une transaction Postgres SERIALIZABLE : l'upsert de la clé seul, chaque mutation externe dans sa propre phase, le travail local regroupé entre les deux ; un retry reprend au dernier recovery point (started, ride_created, charge_created, finished), les jobs de fond sont mis en file dans une table staged_jobs dans la même transaction, et un reaper purge les clés après environ 72 h. Le compromis : beaucoup plus de complexité qu'une transaction ACID unique, mais c'est le seul moyen d'avoir des retries sûrs quand une partie de l'état vit hors de ta base.",
-      "whyItMatters": "Le pattern se transpose tel quel à une API Go/Chi + PostgreSQL comme Midbec ou Flip (middleware qui lit l'en-tête Idempotency-Key, machine à états par recovery point, outbox transactionnelle), et c'est une question classique d'entretien Senior backend.",
-      "source": "brandur.org",
-      "url": "https://brandur.org/idempotency-keys",
-      "publishedAt": "2017-10-27"
+      "title": "Timeouts, retries et backoff avec jitter (Amazon Builders' Library)",
+      "summary": "Problème : dans un système distribué, un appel réseau peut échouer ou traîner, et les retries naïfs transforment une petite panne en tempête de requêtes qui empêche le service de se rétablir. Marc Brooker décrit l'approche d'Amazon : fixer les timeouts à partir d'un percentile de latence en aval (par exemple p99.9) plutôt qu'au hasard, ne retenter qu'à un seul niveau de la pile pour éviter l'amplification multiplicative (3 retries sur 5 couches = 243 appels), limiter localement les retries avec un token bucket, et espacer les tentatives par backoff exponentiel avec jitter pour désynchroniser les clients. Le compromis : les retries améliorent la disponibilité face aux erreurs transitoires, mais ils exigent des API idempotentes et ajoutent de la charge précisément au moment où le système est le plus fragile.",
+      "whyItMatters": "En Go, c'est context.WithTimeout sur chaque appel sortant, un seul client HTTP qui retente avec backoff et jitter, et des endpoints idempotents (lien direct avec les clés d'idempotence d'hier) : à appliquer dans les API Chi de Midbec et Flip, et un sujet qui revient en entretien Senior.",
+      "source": "aws.amazon.com",
+      "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter",
+      "publishedAt": "2019-12-04"
     }
   ]
 }

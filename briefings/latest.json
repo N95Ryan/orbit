@@ -1,53 +1,42 @@
 {
   "version": 1,
-  "date": "2026-11-26",
-  "generatedAt": "2026-11-26T06:49:39-05:00",
+  "date": "2026-11-27",
+  "generatedAt": "2026-11-27T06:51:28-05:00",
   "readingTime": 2,
   "headlines": [
-    "Cloudflare WAF : 2 règles d'urgence ajoutées au ruleset gratuit",
-    "Vite plugin Cloudflare 1.70.2 : Undici patché, Wrangler 4.168 requis",
-    "Workers : optimisation d'images par URL sur workers.dev et en local"
+    "Claude Code 2.1.332 : skills MCP en bêta, hook PreSkillShellCommand",
+    "Cloudflare : Search for Agents, un /.well-known/search en un clic"
   ],
   "items": [
     {
-      "topic": "cloudflare",
-      "kind": "security",
-      "title": "WAF Emergency Release du 24 novembre : deux nouvelles détections en mode Block",
-      "summary": "Cloudflare a poussé en urgence deux détections dans le Cloudflare Free Ruleset, toutes deux réglées sur Block : « Anomaly - Embedded Application Request » et « Generic Rules - Authentication Bypass ». En parallèle, une release planifiée pour le 1er décembre ajoutera en mode log des règles Dangerous File Upload, Magento Template Injection (CVE-2026-103849) et PHP Code Injection.",
-      "whyItMatters": "Ces règles s'activent sans action de ta part sur tes zones Cloudflare (ryan-pina.dev, LYVATH) : si un appel légitime se met à prendre des 403, regarde d'abord les Security Events.",
-      "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-24-emergency-waf-release/",
+      "topic": "claude",
+      "kind": "release",
+      "title": "Claude Code 2.1.332 : skills fournis par les serveurs MCP et nouveau hook",
+      "summary": "Les serveurs MCP peuvent désormais exposer des skills (bêta), affichés sous la forme serveur:skill dans le menu /. Un nouvel événement de hook, PreSkillShellCommand, permet de refuser les commandes shell inline d'un skill ou d'une commande au moment de son chargement. La version corrige aussi une longue série de blocages : lecture d'un .env monté en named pipe, hooks ou serveurs MCP locaux qui inondent la sortie, et échecs de compaction en limite de contexte.",
+      "whyItMatters": "Tu utilises Claude Code tous les jours : PreSkillShellCommand te donne un garde-fou simple avant d'activer des skills MCP tiers sur les repos de Midbec ou de Flip.",
+      "source": "github.com",
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21332",
       "publishedAt": "2026-11-24"
     },
     {
       "topic": "cloudflare",
       "kind": "release",
-      "title": "@cloudflare/vite-plugin 1.70.2 : correctifs de sécurité Undici",
-      "summary": "La version 1.70.2 du plugin Vite de Cloudflare passe le runtime local sur une date de compatibilité de novembre et exige désormais Wrangler 4.168.0 ou plus récent. Elle monte Undici en 7.30.2 pour corriger des failles touchant les remote bindings, et ajoute l'authentification par token scopé pour ces bindings.",
-      "whyItMatters": "Si ton build Astro sur Workers passe par le plugin Vite Cloudflare, monte plugin et Wrangler ensemble, sinon le dev local refusera de démarrer.",
-      "source": "github.com",
-      "url": "https://github.com/cloudflare/workers-sdk/releases/tag/%40cloudflare%2Fvite-plugin%401.70.2",
-      "publishedAt": "2026-11-25"
-    },
-    {
-      "topic": "cloudflare",
-      "kind": "release",
-      "title": "Optimisation d'images par URL directement dans Workers",
-      "summary": "Les URLs de transformation Cloudflare Images (/cdn-cgi/image/...) fonctionnent maintenant sur les domaines workers.dev et en développement local, sans zone dédiée. On déclare jusqu'à 10 origines autorisées pour les images source.",
-      "whyItMatters": "Pour ryan-pina.dev sur Workers, tu peux redimensionner et convertir les images du portfolio à la volée et tester le rendu en local, sans pipeline d'images au build.",
+      "title": "Search for Agents : un endpoint de recherche pour les agents IA sur ton domaine",
+      "summary": "Un nouveau toggle en bêta, dans les Quick Actions de la page Overview d'un domaine, crée une instance AI Search et publie un endpoint /.well-known/search. Il renvoie des résultats en Markdown via GET ou QUERY, pas des réponses générées. La fonctionnalité est disponible sur tous les plans.",
+      "whyItMatters": "Pour ryan-pina.dev, c'est un moyen sans code de rendre ton portfolio interrogeable proprement par les agents IA, à tester sur une zone avant de l'activer.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-25-worker-scoped-url-transformations/",
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-25-search-for-agents/",
       "publishedAt": "2026-11-25"
     },
     {
       "topic": "system-design",
       "kind": "article",
-      "title": "Timeouts, retries et backoff avec jitter (Amazon Builders' Library)",
-      "summary": "Problème : dans un système distribué, un appel réseau peut échouer ou traîner, et les retries naïfs transforment une petite panne en tempête de requêtes qui empêche le service de se rétablir. Marc Brooker décrit l'approche d'Amazon : fixer les timeouts à partir d'un percentile de latence en aval (par exemple p99.9) plutôt qu'au hasard, ne retenter qu'à un seul niveau de la pile pour éviter l'amplification multiplicative (3 retries sur 5 couches = 243 appels), limiter localement les retries avec un token bucket, et espacer les tentatives par backoff exponentiel avec jitter pour désynchroniser les clients. Le compromis : les retries améliorent la disponibilité face aux erreurs transitoires, mais ils exigent des API idempotentes et ajoutent de la charge précisément au moment où le système est le plus fragile.",
-      "whyItMatters": "En Go, c'est context.WithTimeout sur chaque appel sortant, un seul client HTTP qui retente avec backoff et jitter, et des endpoints idempotents (lien direct avec les clés d'idempotence d'hier) : à appliquer dans les API Chi de Midbec et Flip, et un sujet qui revient en entretien Senior.",
-      "source": "aws.amazon.com",
-      "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter",
-      "publishedAt": "2019-12-04"
+      "title": "Online migrations at scale (Stripe Engineering)",
+      "summary": "Problème : migrer un modèle de données critique (chez Stripe, les abonnements) vers un nouveau schéma sans interruption, alors que des millions de lignes sont lues et écrites en continu. Le design suit quatre étapes : écrire en double dans l'ancien et le nouveau modèle, basculer les lectures vers le nouveau en comparant les résultats des deux chemins, basculer les écritures, puis supprimer l'ancien code et les anciennes données ; le backfill des données historiques passe par un job batch hors ligne. Le compromis : chaque étape est réversible et vérifiable, mais la migration dure des semaines et impose de maintenir deux chemins de code en parallèle.",
+      "whyItMatters": "C'est exactement le schéma à appliquer chez Midbec pour sortir du legacy vers Go/Chi + PostgreSQL : double écriture derrière une interface Go, lectures comparées avant bascule, et tu as une histoire concrète à raconter en entretien Senior.",
+      "source": "stripe.com",
+      "url": "https://stripe.com/se/blog/online-migrations",
+      "publishedAt": "2017-02-02"
     }
   ]
 }

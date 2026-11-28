@@ -1,42 +1,42 @@
 {
   "version": 1,
-  "date": "2026-11-27",
-  "generatedAt": "2026-11-27T06:51:28-05:00",
+  "date": "2026-11-28",
+  "generatedAt": "2026-11-28T06:48:10-05:00",
   "readingTime": 2,
   "headlines": [
-    "Claude Code 2.1.332 : skills MCP en bêta, hook PreSkillShellCommand",
-    "Cloudflare : Search for Agents, un /.well-known/search en un clic"
+    "Rust 1.100.1 : corrige une régression d'inférence sur Iterator",
+    "Cloudflare Rules : HMAC et SigV4 pour signer vers S3/GCS privés"
   ],
   "items": [
     {
-      "topic": "claude",
+      "topic": "rust",
       "kind": "release",
-      "title": "Claude Code 2.1.332 : skills fournis par les serveurs MCP et nouveau hook",
-      "summary": "Les serveurs MCP peuvent désormais exposer des skills (bêta), affichés sous la forme serveur:skill dans le menu /. Un nouvel événement de hook, PreSkillShellCommand, permet de refuser les commandes shell inline d'un skill ou d'une commande au moment de son chargement. La version corrige aussi une longue série de blocages : lecture d'un .env monté en named pipe, hooks ou serveurs MCP locaux qui inondent la sortie, et échecs de compaction en limite de contexte.",
-      "whyItMatters": "Tu utilises Claude Code tous les jours : PreSkillShellCommand te donne un garde-fou simple avant d'activer des skills MCP tiers sur les repos de Midbec ou de Flip.",
-      "source": "github.com",
-      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21332",
-      "publishedAt": "2026-11-24"
+      "title": "Rust 1.100.1 : correctif de régression sur les impls d'Iterator",
+      "summary": "Version corrective de la 1.100.0 sortie le 12 novembre. Un changement sur la version const (instable) du trait Iterator faisait que certains types possédant une impl Iterator valide n'étaient plus reconnus comme tels par le compilateur (issue rust-lang/rust#166229). Le changement est annulé ; la mise à jour se fait avec rustup update stable.",
+      "whyItMatters": "Si tu as testé la 1.100.0 sur un side project Rust et vu des erreurs de trait bound inexpliquées sur des itérateurs, c'était ce bug : passe en 1.100.1 plutôt que de contourner dans ton code.",
+      "source": "blog.rust-lang.org",
+      "url": "https://blog.rust-lang.org/2026/11/27/Rust-1.100.1/",
+      "publishedAt": "2026-11-27"
     },
     {
       "topic": "cloudflare",
       "kind": "release",
-      "title": "Search for Agents : un endpoint de recherche pour les agents IA sur ton domaine",
-      "summary": "Un nouveau toggle en bêta, dans les Quick Actions de la page Overview d'un domaine, crée une instance AI Search et publie un endpoint /.well-known/search. Il renvoie des résultats en Markdown via GET ou QUERY, pas des réponses générées. La fonctionnalité est disponible sur tous les plans.",
-      "whyItMatters": "Pour ryan-pina.dev, c'est un moyen sans code de rendre ton portfolio interrogeable proprement par les agents IA, à tester sur une zone avant de l'activer.",
+      "title": "Rules : fonctions HMAC, SigV4 et format_date() pour signer des requêtes vers le stockage",
+      "summary": "Les expressions Rules gagnent des fonctions HMAC, une fonction de dérivation de clé SigV4, format_date() et encode_hex(), de quoi signer directement à l'edge des requêtes vers des buckets S3 ou GCS privés. HMAC et SigV4 demandent un plan Pro, Business ou Enterprise ; format_date() est disponible sur tous les plans. Le même jour, Cloudflare a aussi ajouté le champ http.response.set_cookies pour matcher les cookies de réponse par nom.",
+      "whyItMatters": "Pour servir des assets depuis un bucket S3 privé derrière ton domaine sans Worker ni bucket public, c'est maintenant faisable en règles pures, à condition d'avoir au moins un plan Pro.",
       "source": "developers.cloudflare.com",
-      "url": "https://developers.cloudflare.com/changelog/post/2026-11-25-search-for-agents/",
-      "publishedAt": "2026-11-25"
+      "url": "https://developers.cloudflare.com/changelog/post/2026-11-27-sigv4-hmac-date-functions/",
+      "publishedAt": "2026-11-27"
     },
     {
       "topic": "system-design",
       "kind": "article",
-      "title": "Online migrations at scale (Stripe Engineering)",
-      "summary": "Problème : migrer un modèle de données critique (chez Stripe, les abonnements) vers un nouveau schéma sans interruption, alors que des millions de lignes sont lues et écrites en continu. Le design suit quatre étapes : écrire en double dans l'ancien et le nouveau modèle, basculer les lectures vers le nouveau en comparant les résultats des deux chemins, basculer les écritures, puis supprimer l'ancien code et les anciennes données ; le backfill des données historiques passe par un job batch hors ligne. Le compromis : chaque étape est réversible et vérifiable, mais la migration dure des semaines et impose de maintenir deux chemins de code en parallèle.",
-      "whyItMatters": "C'est exactement le schéma à appliquer chez Midbec pour sortir du legacy vers Go/Chi + PostgreSQL : double écriture derrière une interface Go, lectures comparées avant bascule, et tu as une histoire concrète à raconter en entretien Senior.",
-      "source": "stripe.com",
-      "url": "https://stripe.com/se/blog/online-migrations",
-      "publishedAt": "2017-02-02"
+      "title": "How Figma's databases team lived to tell the scale (Figma Engineering)",
+      "summary": "Problème : la base Postgres de Figma a grossi d'environ 100x depuis 2020 ; après le cache, les read replicas et une douzaine de bases partitionnées verticalement, certaines tables devenaient trop grosses pour une seule instance. Le design : un sharding horizontal maison, avec des « colos » (groupes de tables partageant la même clé de shard, donc joignables entre elles) et un proxy écrit en Go, DBProxy, qui parse chaque requête en AST pour la router vers le bon shard ou faire un scatter-gather. La migration passe d'abord par un sharding logique (des vues Postgres filtrées sur des plages de hash(shard_key), toujours sur une seule base) avant le sharding physique. Le compromis : garder Postgres et un contrôle total, au prix d'un sous-ensemble de SQL restreint et de requêtes multi-shards coûteuses.",
+      "whyItMatters": "À retenir pour un backend Go : sépare « router comme si c'était shardé » de « déplacer les données », et choisis la clé de shard pour que les jointures fréquentes restent sur un seul shard ; c'est un excellent sujet de discussion en entretien Senior.",
+      "source": "figma.com",
+      "url": "https://www.figma.com/blog/how-figmas-databases-team-lived-to-tell-the-scale/",
+      "publishedAt": "2024-03-14"
     }
   ]
 }
